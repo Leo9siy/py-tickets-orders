@@ -102,8 +102,8 @@ class MovieSessionViewSet(viewsets.ModelViewSet):
                 )
             )
         return (queryset
-                .select_related("cinema_hall")
-                .prefetch_related("movies"))
+                .select_related("cinema_hall", "movie")
+                )
 
     def get_serializer_class(self):
         if self.action == "list":
