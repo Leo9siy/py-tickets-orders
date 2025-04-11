@@ -101,7 +101,9 @@ class MovieSessionViewSet(viewsets.ModelViewSet):
                     - Count("tickets"),
                 )
             )
-        return queryset.select_related("cinema_hall").prefetch_related("movies")
+        return (queryset
+                .select_related("cinema_hall")
+                .prefetch_related("movies"))
 
     def get_serializer_class(self):
         if self.action == "list":
