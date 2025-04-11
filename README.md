@@ -61,12 +61,12 @@ It should support the following request structure:
 {
     "tickets": [
         {
-            "row": 2,
+            "row": 3,
             "seat": 1,
             "movie_session": 1
         },
         {
-            "row": 2,
+            "row": 3,
             "seat": 2,
             "movie_session": 1
         }
