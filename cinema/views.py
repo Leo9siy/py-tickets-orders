@@ -61,9 +61,9 @@ class MovieViewSet(viewsets.ModelViewSet):
         if title_params:
             title_params = title_params.split(",")
             for title in title_params:
-                queryset = queryset.filter(title__icontains=title).distinct()
+                queryset = queryset.filter(title__icontains=title)
 
-        return queryset.distinct()
+        return queryset.prefetch_related("actors", "genres").distinct()
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -101,7 +101,7 @@ class MovieSessionViewSet(viewsets.ModelViewSet):
                     - Count("tickets"),
                 )
             )
-        return queryset
+        return queryset.select_related("cinema_hall").prefetch_related("movies")
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -137,6 +137,8 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = self.queryset
+
+        queryset = queryset.prefetch_related("tickets__movie_session")
 
         if isinstance(self.request.user, AnonymousUser):
             return queryset
